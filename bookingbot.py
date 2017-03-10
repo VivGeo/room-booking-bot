@@ -5,7 +5,7 @@
 import getpass
 from datetime import date
 from selenium import webdriver
-
+from bs4 import BeautifulSoup
 #Functions
 
 #returns the correct number of days in the month
@@ -57,3 +57,10 @@ LCDElem = browser.find_element_by_xpath("//input[@value='3']").find_element_by_x
 LCDElem.click()
 whiteboardElem = browser.find_element_by_xpath("//input[@value='6']").find_element_by_xpath("./..")
 whiteboardElem.click()
+
+#Locate 8 ppl rooms
+html = browser.page_source
+soup = BeautifulSoup(html,"html.parser")
+
+room_rows = soup.find_all(has_eight_seats)
+print(len(room_rows))
