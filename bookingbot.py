@@ -22,6 +22,9 @@ def getDays ( num ):
         return 30
     
 #Main code
+# used to find 8 seats
+def has_eight_seats(tag):
+    return tag.has_attr('data-seats') and tag['data-seats'] == "8"
 
 #User credentials
 name = input("username: ")
