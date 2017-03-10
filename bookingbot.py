@@ -50,7 +50,7 @@ passwordElem = browser.find_element_by_id("password")
 passwordElem.send_keys(password)
 linkElem = browser.find_element_by_id('submit')
 linkElem.click()
-# Gets to the desired date (TODO: Change to input)
+# Gets to the desired date
 browser.get(
     'http://apps.library.ryerson.ca/room_booking/booking/booking_main?month=' + str(year) + str(month) + '&date=' + str(
         year) + str(month) + str(day))
@@ -67,7 +67,14 @@ html = browser.page_source
 soup = BeautifulSoup(html,"html.parser")
 
 # room_rows = soup.find_all(has_eight_seats)
+# todo: by selecting for data-seats, the other room picking criteria is neglected, make sure to check for resources
 els = soup.find_all(attrs={"data-seats": "8"})
+for el in els:
+    available_times = []
+    print(str(el.contents[0].contents[0].string.encode('utf-8')))
+    print("is available during these times:")
+    for child in el.children:
+        if child.has_attr('class') and 'room_free' in child['class']:
+            print(str(child.contents[0].contents[0].string.encode('utf-8')))
 
-el = els[0]
 
