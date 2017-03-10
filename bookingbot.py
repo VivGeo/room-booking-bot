@@ -36,6 +36,7 @@ month = today.month
 # if month is single, pad with left zero
 if month < 10:
     month = "0" + str(month)
+
 #Opens an instance of chrome
 browser = webdriver.Chrome()
 #Goes to room booking webpage
