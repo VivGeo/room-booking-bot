@@ -2,8 +2,13 @@
 
 personal project for personal convenience
 
-currently finds a list of available study rooms based on my  preferred criteria
+ryerson username (e.g. vivek.george)
 
-ryerson username (e.g. vivek.george from vivek.george@ryerson.ca)
+currently finds a list of available study rooms based on my  preferred criteria and outputs a list of their available booking times
 
-TODO: search for 8 person rooms and select one automatically
+TODO: 
+
+* enforce resource specification (e.g. whiteboard walls), current room selection seems to ignore the resource choices except for the 8 seats
+
+* select a room
+
