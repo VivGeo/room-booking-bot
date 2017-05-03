@@ -82,7 +82,7 @@ whiteboardElem.click()
 html = browser.page_source
 soup = BeautifulSoup(html, "html.parser")
 
-room_found = False;
+room_found = False
 # todo: by selecting for data-seats, the other room picking criteria is neglected, make sure to check for resources
 els = soup.find_all(attrs={"data-seats": num_seats})
 for el in els:
