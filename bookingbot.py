@@ -23,7 +23,6 @@ def getDays(num):
         print(30)
         return 30
 
-
 # Main code
 
 # User credentials
@@ -71,8 +70,8 @@ soup = BeautifulSoup(html,"html.parser")
 els = soup.find_all(attrs={"data-seats": "8"})
 for el in els:
     available_times = []
-    #print(str(el.contents[0].contents[0].string.encode('utf-8')))
-    #print("is available during these times:")
+    # print(str(el.contents[0].contents[0].string.encode('utf-8')))
+    # print("is available during these times:")
     for child in el.children:
         if child.has_attr('class') and 'room_free' in child['class']:
             current_time = str(child.contents[0].contents[0].string.encode('utf-8'))
