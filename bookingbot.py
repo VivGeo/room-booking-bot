@@ -4,6 +4,8 @@
 # Imports
 import getpass
 from datetime import date
+
+from bs4 import NavigableString
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
@@ -23,6 +25,15 @@ def getDays(num):
         print(30)
         return 30
 
+
+# used to check descendants
+def getRoomNames(tag):
+    if tag.has_attr('class') and tag['class'] == 'table_cell_height':
+        return True
+    else:
+        return False
+
+
 # Main code
 
 # User credentials
@@ -30,10 +41,18 @@ name = input("username: ")
 password = getpass.getpass("password: ")
 today = date.today()
 day = input("Day of the Month: ")
-
+time = input("Time: ")
 year = today.year
-month = today.month
-
+if int(day) < today.day:
+    if month == 12:
+        month = 1
+    else:
+        month = today.month + 1
+else:
+    month = today.month
+num_seats = input("number of seats (5/8)")  # the whiteboard & LCD Panel rooms only come in these sizes
+if num_seats != "5" and num_seats != "8":
+    num_seats = "5"
 # if month is single, pad with left zero
 if month < 10:
     month = "0" + str(month)
@@ -49,10 +68,9 @@ passwordElem = browser.find_element_by_id("password")
 passwordElem.send_keys(password)
 linkElem = browser.find_element_by_id('submit')
 linkElem.click()
-# Gets to the desired date
 browser.get(
-    'http://apps.library.ryerson.ca/room_booking/booking/booking_main?month=' + str(year) + str(month) + '&date=' + str(
-        year) + str(month) + str(day))
+    'http://apps.library.ryerson.ca/room_booking/booking/booking_main?month=' + str(year) + str(month) + '&date=' +
+    str(year) + str(month) + str(day))
 # Selects my study group's room booking criteria (5-8 ppl,LCDs, Whiteboard walls)
 seatElem = browser.find_element_by_xpath("//input[@value='5-8']").find_element_by_xpath("./..")
 seatElem.click()
@@ -61,21 +79,20 @@ LCDElem.click()
 whiteboardElem = browser.find_element_by_xpath("//input[@value='6']").find_element_by_xpath("./..")
 whiteboardElem.click()
 
-# Locate 8 ppl rooms
 html = browser.page_source
-soup = BeautifulSoup(html,"html.parser")
+soup = BeautifulSoup(html, "html.parser")
 
-# room_rows = soup.find_all(has_eight_seats)
+room_found = False;
 # todo: by selecting for data-seats, the other room picking criteria is neglected, make sure to check for resources
-els = soup.find_all(attrs={"data-seats": "8"})
+els = soup.find_all(attrs={"data-seats": num_seats})
 for el in els:
     available_times = []
-    # print(str(el.contents[0].contents[0].string.encode('utf-8')))
-    # print("is available during these times:")
     for child in el.children:
         if child.has_attr('class') and 'room_free' in child['class']:
             current_time = str(child.contents[0].contents[0].string.encode('utf-8'))
             if time in current_time:
                 print(str(el.contents[0].contents[0].string.encode('utf-8')) + " is available at this time")
+                room_found = True;
 
-
+if room_found is False:
+    print("No rooms found")
