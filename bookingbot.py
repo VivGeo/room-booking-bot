@@ -43,6 +43,7 @@ today = date.today()
 day = input("Day of the Month: ")
 time = input("Time: ")
 year = today.year
+month = today.month
 if int(day) < today.day:
     if month == 12:
         month = 1
@@ -62,22 +63,22 @@ browser = webdriver.Chrome()
 # Goes to room booking webpage
 browser.get("http://apps.library.ryerson.ca/room_booking/")
 # Login Credentials (Change to input style)
-userNameElem = browser.find_element_by_id('username')
-userNameElem.send_keys(name)
-passwordElem = browser.find_element_by_id("password")
-passwordElem.send_keys(password)
-linkElem = browser.find_element_by_id('submit')
-linkElem.click()
+user_name_elem = browser.find_element_by_id('username')
+user_name_elem.send_keys(name)
+password_elem = browser.find_element_by_id("password")
+password_elem.send_keys(password)
+link_elem = browser.find_element_by_id('submit')
+link_elem.click()
 browser.get(
     'http://apps.library.ryerson.ca/room_booking/booking/booking_main?month=' + str(year) + str(month) + '&date=' +
     str(year) + str(month) + str(day))
 # Selects my study group's room booking criteria (5-8 ppl,LCDs, Whiteboard walls)
-seatElem = browser.find_element_by_xpath("//input[@value='5-8']").find_element_by_xpath("./..")
-seatElem.click()
-LCDElem = browser.find_element_by_xpath("//input[@value='3']").find_element_by_xpath("./..")
-LCDElem.click()
-whiteboardElem = browser.find_element_by_xpath("//input[@value='6']").find_element_by_xpath("./..")
-whiteboardElem.click()
+seat_elem = browser.find_element_by_xpath("//input[@value='5-8']").find_element_by_xpath("./..")
+seat_elem.click()
+seat_elem = browser.find_element_by_xpath("//input[@value='3']").find_element_by_xpath("./..")
+seat_elem.click()
+white_board_elem = browser.find_element_by_xpath("//input[@value='6']").find_element_by_xpath("./..")
+white_board_elem.click()
 
 html = browser.page_source
 soup = BeautifulSoup(html, "html.parser")
