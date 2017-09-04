@@ -51,7 +51,7 @@ if int(day) < today.day:
         month = today.month + 1
 else:
     month = today.month
-num_seats = input("number of seats (5/8)")  # the whiteboard & LCD Panel rooms only come in these sizes
+num_seats = input("number of seats (5/8):")  # the whiteboard & LCD Panel rooms only come in these sizes
 if num_seats != "5" and num_seats != "8":
     num_seats = "5"
 # if month is single, pad with left zero
@@ -67,7 +67,7 @@ user_name_elem = browser.find_element_by_id('username')
 user_name_elem.send_keys(name)
 password_elem = browser.find_element_by_id("password")
 password_elem.send_keys(password)
-link_elem = browser.find_element_by_id('submit')
+link_elem = browser.find_element_by_name('submit')
 link_elem.click()
 browser.get(
     'http://apps.library.ryerson.ca/room_booking/booking/booking_main?month=' + str(year) + str(month) + '&date=' +
