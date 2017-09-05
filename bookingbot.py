@@ -33,12 +33,19 @@ def getRoomNames(tag):
     else:
         return False
 
+def availabilityCheck(room):
+    if type(room) is 'bs4.element.Tag':
+        print("reach")
+        if room.has_attr('class') and 'room_free' in room['class']:
+            return True
+
+    return False
 
 # Main code
 
 # User credentials
 name = input("username: ")
-password = getpass.getpass("password: ")
+password = input("password: ")
 today = date.today()
 day = input("Day of the Month: ")
 time = input("Time: ")
@@ -84,16 +91,18 @@ html = browser.page_source
 soup = BeautifulSoup(html, "html.parser")
 
 room_found = False
-# todo: by selecting for data-seats, the other room picking criteria is neglected, make sure to check for resources
+# TODO: select for room resources, then select for room availability spans
 els = soup.find_all(attrs={"data-seats": num_seats})
 for el in els:
     available_times = []
     for child in el.children:
-        if child.has_attr('class') and 'room_free' in child['class']:
-            current_time = str(child.contents[0].contents[0].string.encode('utf-8'))
+        if availabilityCheck(child):
+            current_time = str(child.contents[0].contents[0].string)
             if time in current_time:
-                print(str(el.contents[0].contents[0].string.encode('utf-8')) + " is available at this time")
+                print(str(el.contents[0].contents[0].string) + " is available at this time")
                 room_found = True;
+                #.encode('utf-8')
 
 if room_found is False:
     print("No rooms found")
+
